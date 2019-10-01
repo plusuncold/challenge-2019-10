@@ -246,7 +246,7 @@ def get_random_letters():
     with open(os.path.join(DIR, 'data', 'letters.json')) as f:
         letters = json.load(f)
 
-    word_length = random.randint(4, 10)
+    word_length = random.randint(4, 7)
     word = ''
 
     while len(word) < word_length:

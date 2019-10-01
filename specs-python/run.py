@@ -29,23 +29,23 @@ DATA = os.path.join(os.path.abspath(os.path.dirname(__file__)), '..', 'data')
 #     else:
 #         return word
 
-# start timer
-start = time() * 1000
-
-# load data
-with open(os.path.join(DATA, 'dictionary.txt')) as f:
-    w = f.read()
-WORDS = w.splitlines()
-
-with open(os.path.join(DATA, 'letters.json'))as f:
-    LETTERS = json.load(f)
-
 # check input
 if len(sys.argv) > 1:
     input_letters = sys.argv[1]
 else:
     # input_letters = get_random_letters()
     input_letters = ''
+
+# start timer
+start = time() * 1000
+
+# load data
+with open(os.path.join(DATA, 'dictionary.txt')) as f:
+    WORDS = [w.strip() for w in f.readlines()
+             if len(w.strip()) <= len(input_letters)]
+
+with open(os.path.join(DATA, 'letters.json'))as f:
+    LETTERS = json.load(f)
 
 
 def get_score(w):

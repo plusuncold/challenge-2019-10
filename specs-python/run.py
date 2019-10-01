@@ -1,3 +1,5 @@
+from itertools import chain
+from itertools import permutations
 import json
 import os
 # import random
@@ -46,30 +48,30 @@ else:
     input_letters = ''
 
 
-def combine(word, prefix, items):
-    for i, l in enumerate(word):
-        items.append(prefix + l)
-        temp = word[:i] + word[i + 1:]
-        items = combine(temp, prefix + l, items)
-    return items
+def get_score(w):
+    return sum(LETTERS.get(l, {}).get('score', 0) for l in w)
 
 
-combined_words = combine(input_letters, '', [])
-solutions = sorted(
+words = sorted(
     [
-        {
-            'word': w,
-            'score': sum(LETTERS.get(l, {}).get('score', 0) for l in w)
-        }
-        for w in combined_words
-        if w in WORDS
+        (''.join(w), get_score(w))
+        for w in
+        filter(
+            lambda x: ''.join(x) in WORDS,
+            chain(
+                *map(
+                    lambda l: permutations(input_letters, l),
+                    range(1, len(input_letters) + 1)
+                )
+            )
+        )
     ],
-    key=lambda k: k['score'],
+    key=lambda k: k[1],
     reverse=True
 )
-if solutions:
-    winner = solutions[0]['word']
-    score = solutions[0]['score']
+if words:
+    winner = words[0][0]
+    score = words[0][1]
 else:
     winner = ''
     score = 0

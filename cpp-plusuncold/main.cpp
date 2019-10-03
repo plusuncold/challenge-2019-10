@@ -63,7 +63,7 @@ map<char,short> lettersToMap(char* letters) {
     short i = 0;
     map<char,short> lettersMap;
     char letter = letters[i];;
-    while (letter != NULL) {
+    while (letter != 0) {
 	if (lettersMap.count(letter)) {
 	    lettersMap[letter]++;
 	} else {
